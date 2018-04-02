@@ -1,0 +1,19 @@
+.m-flexbox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.m-flex-item {
+  width: 50%;
+}
+
+@media screen and (max-width: 768px) {
+  .m-flexbox {
+    flex-direction: column;
+  }
+  .m-flex-item {
+    width: 100%;
+  }
+}
