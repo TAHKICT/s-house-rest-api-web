@@ -1,8 +1,13 @@
 package com.shouse.restapi.web.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NodeInfoMessageControl {
     private String type;
     private String value;
+
+    public NodeInfoMessageControl(){}
 
     public NodeInfoMessageControl(String type, String value) {
         this.type = type;

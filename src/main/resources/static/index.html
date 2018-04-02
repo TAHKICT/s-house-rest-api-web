@@ -886,27 +886,27 @@
 
             <script>
                     var stompClient = null;
-                    // const settings = {
-                    //     renderDataUrl: 'http://localhost:8080/user/getactivenodes/light',
-                    //     webSocDataUrl: 'ws://localhost:8080/s-house-rest-websocket'
-                    // }
+                     const settings = {
+                         renderDataUrl: 'http://localhost:8282/user/getactivenodes/light',
+                         webSocDataUrl: 'ws://localhost:8080/s-house-rest-websocket'
+                     }
 
-                    // let model = new Model(settings);
-                    // let view = new View(templates);
-                    // let controller = new Controller(model, view);
+                     let model = new Model(settings);
+                     let view = new View(templates);
+                     let controller = new Controller(model, view);
 
-                    // controller.initApp();
+                     controller.initApp();
 
-                    var socket = new SockJS('http://localhost:8080/s-house-rest-websocket');
-                    stompClient = Stomp.over(socket);
-                    // stompClient.addWebAllowedObject("http//:localhost:8080","*");
-                    stompClient.connect({}, function (frame) {
-                        setConnected(true);
-                        console.log('Connected: ' + frame);
-                        stompClient.subscribe('/to-user/messages', function (greeting) {
-                            showGreeting(JSON.parse(greeting.body).content);
-                        });
-                    });
+//                    var socket = new SockJS('http://localhost:8080/s-house-rest-websocket');
+//                    stompClient = Stomp.over(socket);
+//                    // stompClient.addWebAllowedObject("http//:localhost:8080","*");
+//                    stompClient.connect({}, function (frame) {
+//                        setConnected(true);
+//                        console.log('Connected: ' + frame);
+//                        stompClient.subscribe('/to-user/messages', function (greeting) {
+//                            showGreeting(JSON.parse(greeting.body).content);
+//                        });
+//                    });
                                
             </script>
 

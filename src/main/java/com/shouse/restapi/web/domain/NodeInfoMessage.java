@@ -1,5 +1,8 @@
 package com.shouse.restapi.web.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NodeInfoMessage {
 
     private int id;
@@ -7,6 +10,8 @@ public class NodeInfoMessage {
     private String nodeLocation;
     private NodeInfoMessageControl control;
     private String description;
+
+    public NodeInfoMessage(){}
 
     public NodeInfoMessage(int id, String nodeType, String nodeLocation, NodeInfoMessageControl control, String description) {
         this.id = id;
@@ -54,5 +59,16 @@ public class NodeInfoMessage {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "NodeInfoMessage{" +
+                "id=" + id +
+                ", nodeType='" + nodeType + '\'' +
+                ", nodeLocation='" + nodeLocation + '\'' +
+                ", control=" + control +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
