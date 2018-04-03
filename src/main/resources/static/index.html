@@ -881,11 +881,11 @@
             <script src="js/controller.js"></script>
               
             <!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script> -->
-            <script src="https://cdn.jsdelivr.net/npm/sockjs-client/1.1.2/sockjs.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 
             <script>
-                    var stompClient = null;
+                    // var stompClient = null;
                      const settings = {
                          renderDataUrl: 'http://localhost:8282/user/getactivenodes/light',
                          webSocDataUrl: 'ws://localhost:8080/s-house-rest-websocket'
@@ -897,16 +897,11 @@
 
                      controller.initApp();
 
-//                    var socket = new SockJS('http://localhost:8080/s-house-rest-websocket');
-//                    stompClient = Stomp.over(socket);
-//                    // stompClient.addWebAllowedObject("http//:localhost:8080","*");
-//                    stompClient.connect({}, function (frame) {
-//                        setConnected(true);
-//                        console.log('Connected: ' + frame);
-//                        stompClient.subscribe('/to-user/messages', function (greeting) {
-//                            showGreeting(JSON.parse(greeting.body).content);
-//                        });
-//                    });
+                    function handleControlChange(nodeId, value){
+                        // alert("The input value has changed. The new value is: " + value);
+                        console.log('handleControlChange ' + nodeId + ' ' + value);
+                        controller.handleNodeControlChange(nodeId,value);
+                    }
                                
             </script>
 

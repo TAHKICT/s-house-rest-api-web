@@ -29,14 +29,14 @@
 
 let templates = new Map();
 
-templates.set('checkbox', `<div class="m-form__group form-group row" data-id="{{ id }}">
+templates.set('checkbox', `<div class="m-form__group form-group row" >
 <label class="col-3 col-form-label">
 {{ data }}
 </label>
 <div class="col-3">
   <span class="m-switch">
     <label>
-      <input type="checkbox" {{ value }} name="">
+      <input type="checkbox" {{ value }} id="node-control-id-{{ id }}" onchange="handleControlChange(this.id, this.checked)">
       <span></span>
     </label>
   </span>

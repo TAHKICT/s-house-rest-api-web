@@ -4,6 +4,7 @@ class Controller {
     this.model = model;
     this.view = view;
     this.container = document.querySelector('#mainContainer');
+    this.stompClient = null;
   }
 
   initApp() {
@@ -40,43 +41,33 @@ class Controller {
             }
             
         }
-
-          // this.model.initWebSoc(
-          //   () => {alert("Соединение установлено.")},
-          //   () => {alert('Соединение закрыто')},
-          //   (event) => {alert("Получены данные " + event.data)},
-          //   (error) => {alert("Ошибка " + error.message)}
-          // )
           this.connect();
 
         })
 
 }
 
-// connect() {
-//     var socket = new SockJS('http://localhost:8080/s-house-rest-websocket');
-//     stompClient = Stomp.over(socket);
-//     stompClient.connect({}, function (frame) {
-//         setConnected(true);
-//         console.log('Connected: ' + frame);
-//         // stompClient.subscribe('/s-house-rest-api/messages', function (greeting) {
-//         //     showGreeting(JSON.parse(greeting.body).content);
-//         // });
-//     });
-// }
-
 connect() {
-    var socket = new SockJS('/gs-guide-websocket');
-    stompClient = Stomp.over(socket);
+    let socket = new SockJS('http://localhost:8282/s-house-rest-api-web-websocket-registration');
+    let stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
+        stompClient.subscribe('/to-user/messages', function (webSocketMessage) {
+            handleWebSocketMessage(JSON.parse(webSocketMessage.body).nodeId, JSON.parse(webSocketMessage.body).value);
         });
     });
+    this.stompClient = stompClient;
 }
 
+handleWebSocketMessage(nodeId,value){
+    this.container.getElementById("node-control-id-"+nodeId).disabled=value;
+}
+
+handleNodeControlChange(nodeId,value){
+      let id = nodeId.replace("node-control-id-", "");
+    this.stompClient.send("/s-house-rest-api-web-websocket/to-server", {}, JSON.stringify({'nodeId': id, 'value':value}));
+    console.log('nodeId:' + nodeId + ', value:' + value);
+}
 
 isNodeLocationExists(string) {
   let flag = false;
