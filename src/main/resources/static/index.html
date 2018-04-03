@@ -888,7 +888,7 @@
                     // var stompClient = null;
                      const settings = {
                          renderDataUrl: 'http://localhost:8282/user/getactivenodes/light',
-                         webSocDataUrl: 'ws://localhost:8080/s-house-rest-websocket'
+                         webSocDataUrl: 'http://localhost:8282/s-house-rest-api-web-websocket-registration'
                      }
 
                      let model = new Model(settings);
@@ -897,11 +897,7 @@
 
                      controller.initApp();
 
-                    function handleControlChange(nodeId, value){
-                        // alert("The input value has changed. The new value is: " + value);
-                        console.log('handleControlChange ' + nodeId + ' ' + value);
-                        controller.handleNodeControlChange(nodeId,value);
-                    }
+
                                
             </script>
 

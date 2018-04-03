@@ -3,6 +3,7 @@ class View {
 
   constructor(templates) {
     this.templates = templates;
+
   }
 
 
@@ -35,5 +36,7 @@ class View {
   getTemplate(string) {
     return this.templates.get(string);
   }
+
+
 
 }
