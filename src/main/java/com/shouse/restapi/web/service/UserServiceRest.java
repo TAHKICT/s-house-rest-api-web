@@ -23,7 +23,7 @@ public class UserServiceRest implements UserService {
 
     @Override
     public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage) {
-        return null;
+        return webSocketMessage;
     }
 
 }
