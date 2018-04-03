@@ -16,7 +16,7 @@ public class UsersControllerWebSocket {
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
     public WebSocketMessage webSocketMessage(WebSocketMessage webSocketMessage) throws Exception {
-        Thread.sleep(1000); // simulated delay
+//        Thread.sleep(1000); // simulated delay
         return userService.handleWebSocketRequest(webSocketMessage);
     }
 }
