@@ -11,4 +11,6 @@ public interface UserService {
 
     public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage);
 
+    public void handleRequestFromCore(WebSocketMessage webSocketMessage);
+
 }

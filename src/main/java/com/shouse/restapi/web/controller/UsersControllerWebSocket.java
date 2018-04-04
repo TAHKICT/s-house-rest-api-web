@@ -8,15 +8,15 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class UsersControllerWebSocket {
+public class UsersControllerWebSocket implements UsersControllerWebSocketObserver{
 
     @Autowired
     UserService userService;
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
-    public WebSocketMessage webSocketMessage(WebSocketMessage webSocketMessage) throws Exception {
-//        Thread.sleep(1000); // simulated delay
+    public WebSocketMessage webSocketMessage(WebSocketMessage webSocketMessage) {
+        System.out.println("UsersControllerWebSocket. webSocketMessage");
         return userService.handleWebSocketRequest(webSocketMessage);
     }
 }
