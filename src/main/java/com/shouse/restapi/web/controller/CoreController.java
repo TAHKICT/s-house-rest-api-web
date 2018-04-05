@@ -1,7 +1,7 @@
 package com.shouse.restapi.web.controller;
 
 import com.shouse.restapi.web.domain.WebSocketMessage;
-import com.shouse.restapi.web.service.UserService;
+import com.shouse.restapi.web.service.core.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class CoreController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    UserService userService;
+    CoreService coreService;
 
     @RequestMapping("/web-rest-api/for-core-application")
     public String handleRequestFromCore(@RequestBody WebSocketMessage message, HttpServletResponse response) {
@@ -25,7 +25,7 @@ public class CoreController {
 
         log.info("CoreController. handleRequestFromCore. Incoming message:  " + message);
 
-        userService.handleRequestFromCore(message);
+        coreService.handleRequestFromCore(message);
         return "OK";
     }
 }

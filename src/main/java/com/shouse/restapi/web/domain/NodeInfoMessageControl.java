@@ -29,4 +29,12 @@ public class NodeInfoMessageControl {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "NodeInfoMessageControl{" +
+                "type='" + type + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

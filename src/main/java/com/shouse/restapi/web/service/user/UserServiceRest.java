@@ -1,8 +1,8 @@
-package com.shouse.restapi.web.service;
+package com.shouse.restapi.web.service.user;
 
-import com.shouse.restapi.web.controller.UsersControllerWebSocketObserver;
 import com.shouse.restapi.web.domain.NodeInfoMessage;
 import com.shouse.restapi.web.domain.WebSocketMessage;
+import com.shouse.restapi.web.service.core.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,24 +20,19 @@ public class UserServiceRest implements UserService {
     RestTemplate restTemplate;
 
     @Autowired
-    UsersControllerWebSocketObserver usersControllerWebSocketObserver;
+    CoreService coreService;
 
     @Override
     public List<NodeInfoMessage> getActiveNodes(String nodeType) {
         ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.getForEntity("http://localhost:8181/core-rest-api/for-web-application/get-active-nodes/"+nodeType, NodeInfoMessage[].class);
         NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
+        System.out.println(Arrays.asList(nodeInfoMessages));
         return Arrays.asList(nodeInfoMessages);
     }
 
     @Override
     public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage) {
+        coreService.sendRequestToCore(webSocketMessage);
         return webSocketMessage;
     }
-
-    @Override
-    public void handleRequestFromCore(WebSocketMessage webSocketMessage) {
-        log.info("UserServiceRest. handleRequestFromCore. Incoming webSocketMessage: " + webSocketMessage);
-        usersControllerWebSocketObserver.webSocketMessage(webSocketMessage);
-    }
-
 }

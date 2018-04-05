@@ -1,7 +1,7 @@
 package com.shouse.restapi.web.controller;
 
 import com.shouse.restapi.web.domain.NodeInfoMessage;
-import com.shouse.restapi.web.service.UserService;
+import com.shouse.restapi.web.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
