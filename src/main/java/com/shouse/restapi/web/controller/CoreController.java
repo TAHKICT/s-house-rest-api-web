@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
+@RequestMapping("/web-rest-api")
 public class CoreController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -19,7 +20,7 @@ public class CoreController {
     @Autowired
     CoreService coreService;
 
-    @RequestMapping("/web-rest-api/for-core-application")
+    @RequestMapping("/for-core-application")
     public String handleRequestFromCore(@RequestBody WebSocketMessage message, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
 

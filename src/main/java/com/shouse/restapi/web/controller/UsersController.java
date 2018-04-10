@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
+@RequestMapping("/web-rest-api")
 public class UsersController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -20,7 +21,7 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/user/getactivenodes/{nodeType}")
+    @RequestMapping("/user/admin-ui/get-active-nodes/{nodeType}")
     public List<NodeInfoMessage> getActiveNodesByType(@PathVariable(value="nodeType") String nodeType,
                                                       HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
