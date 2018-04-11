@@ -23,9 +23,7 @@ public class CoreController {
     @RequestMapping("/for-core-application")
     public String handleRequestFromCore(@RequestBody WebSocketMessage message, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-
         log.info("CoreController. handleRequestFromCore. Incoming message:  " + message);
-
         coreService.handleRequestFromCore(message);
         return "OK";
     }

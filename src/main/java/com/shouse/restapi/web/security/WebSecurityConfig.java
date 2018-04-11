@@ -18,6 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/assets/**","/components/**", "/css/**", "/header/**", "/js/**","/snippets/**","/").permitAll()
                 .antMatchers(HttpMethod.POST, "/web-rest-api/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/web-rest-api/for-core-application").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // We filter the api/login requests
