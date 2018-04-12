@@ -1,6 +1,6 @@
 package com.shouse.restapi.web.service.user;
 
-import com.shouse.restapi.web.domain.GetNodesMessage;
+import com.shouse.restapi.web.domain.RequestGetNodes;
 import com.shouse.restapi.web.domain.NodeInfoMessage;
 import com.shouse.restapi.web.domain.WebSocketMessage;
 
@@ -10,7 +10,7 @@ public interface UserService {
 
     public List<NodeInfoMessage> getActiveNodes(String nodeType);
 
-    public List<NodeInfoMessage> getActiveNodes(GetNodesMessage getNodesMessage);
+    public List<NodeInfoMessage> getActiveNodes(RequestGetNodes requestGetNodes);
 
     public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage);
 

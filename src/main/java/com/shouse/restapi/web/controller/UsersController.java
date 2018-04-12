@@ -1,8 +1,7 @@
 package com.shouse.restapi.web.controller;
 
-import com.shouse.restapi.web.domain.GetNodesMessage;
+import com.shouse.restapi.web.domain.RequestGetNodes;
 import com.shouse.restapi.web.domain.NodeInfoMessage;
-import com.shouse.restapi.web.domain.WebSocketMessage;
 import com.shouse.restapi.web.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,7 @@ public class UsersController {
     }
 
     @RequestMapping("/user/admin-ui/get-active-nodes")
-    public List<NodeInfoMessage> getActiveNodes(@RequestBody GetNodesMessage message,
+    public List<NodeInfoMessage> getActiveNodes(@RequestBody RequestGetNodes message,
                                                       HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("UsersController. getActiveNodesByType: " + message);

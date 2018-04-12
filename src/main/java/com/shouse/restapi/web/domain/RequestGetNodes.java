@@ -3,14 +3,14 @@ package com.shouse.restapi.web.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetNodesMessage {
+public class RequestGetNodes {
 
     private String type;
     private String name;
 
-    public GetNodesMessage() {}
+    public RequestGetNodes() {}
 
-    public GetNodesMessage(String type, String name) {
+    public RequestGetNodes(String type, String name) {
         this.type = type;
         this.name = name;
     }
@@ -33,7 +33,7 @@ public class GetNodesMessage {
 
     @Override
     public String toString() {
-        return "GetNodesMessage{" +
+        return "RequestGetNodes{" +
                 "type='" + type + '\'' +
                 ", name='" + name + '\'' +
                 '}';

@@ -1,6 +1,6 @@
 package com.shouse.restapi.web.service.user;
 
-import com.shouse.restapi.web.domain.GetNodesMessage;
+import com.shouse.restapi.web.domain.RequestGetNodes;
 import com.shouse.restapi.web.domain.NodeInfoMessage;
 import com.shouse.restapi.web.domain.WebSocketMessage;
 import com.shouse.restapi.web.service.core.CoreService;
@@ -33,8 +33,8 @@ public class UserServiceRest implements UserService {
     }
 
     @Override
-    public List<NodeInfoMessage> getActiveNodes(GetNodesMessage getNodesMessage) {
-        ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.postForEntity(coreApiURL + "/get-active-nodes",getNodesMessage,NodeInfoMessage[].class);
+    public List<NodeInfoMessage> getActiveNodes(RequestGetNodes requestGetNodes) {
+        ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.postForEntity(coreApiURL + "/get-active-nodes", requestGetNodes,NodeInfoMessage[].class);
         NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
         return Arrays.asList(nodeInfoMessages);
     }
