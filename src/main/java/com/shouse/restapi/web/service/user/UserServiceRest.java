@@ -26,6 +26,13 @@ public class UserServiceRest implements UserService {
     CoreService coreService;
 
     @Override
+    public List<String> getMenuItems(String menuItemsSortedBy) {
+        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/menu/get-items?menuItemsSortedBy="+menuItemsSortedBy, String[].class);
+        String[] menuItems = responseEntity.getBody();
+        return Arrays.asList(menuItems);
+    }
+
+    @Override
     public List<NodeInfoMessage> getActiveNodes(String nodeType) {
         ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/get-active-nodes/"+nodeType, NodeInfoMessage[].class);
         NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
@@ -47,7 +54,7 @@ public class UserServiceRest implements UserService {
 
     @Override
     public List<String> getMenuSortingTypes() {
-        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/get-menu-sort-types", String[].class);
+        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/menu/get-sort-types", String[].class);
         String[] menuSortTypes = responseEntity.getBody();
         return Arrays.asList(menuSortTypes);
     }

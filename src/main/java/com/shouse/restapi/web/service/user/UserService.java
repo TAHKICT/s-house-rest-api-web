@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserService {
 
+    public List<String> getMenuItems(String menuItemsSortedBy);
+
     public List<NodeInfoMessage> getActiveNodes(String nodeType);
 
     public List<NodeInfoMessage> getActiveNodes(RequestGetNodes requestGetNodes);
