@@ -21,7 +21,7 @@ public class UsersController {
     UserService userService;
 
     @RequestMapping("/menu/get-sorting-types")
-    public List<String> getMenuSortingTypes(HttpServletResponse response) {
+    public List<String> menuSortTypes(HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("UsersController. getMenuSortingTypes");
 
@@ -29,11 +29,20 @@ public class UsersController {
     }
 
     @RequestMapping("/menu/get-items")
-    public List<String> getMenuItems(@RequestParam(value = "menuItemsSortedBy") String menuItemsSortedBy, HttpServletResponse response) {
+    public List<String> menuItems(@RequestParam(value = "sortedBy") String sortedBy, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
-        log.info("UsersController. getMenuSortingTypes");
+        log.info("UsersController. getMenuItems");
 
-        return userService.getMenuItems(menuItemsSortedBy);
+        return userService.getMenuItems(sortedBy);
+    }
+
+    @RequestMapping("/content/get-nodes")
+    public List<NodeInfoMessage> nodesList(@RequestBody RequestGetNodes message,
+                                                HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        log.info("UsersController. getActiveNodesByType: " + message);
+
+        return userService.getNodes(message);
     }
 
     @RequestMapping("/content/get-nodes/{nodeType}")
@@ -42,17 +51,10 @@ public class UsersController {
         response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("UsersController. getActiveNodesByType: " + nodeType);
 
-        return userService.getActiveNodes(nodeType);
+        return userService.getNodes(nodeType);
     }
 
-    @RequestMapping("/get-active-nodes")
-    public List<NodeInfoMessage> getActiveNodes(@RequestBody RequestGetNodes message,
-                                                      HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        log.info("UsersController. getActiveNodesByType: " + message);
 
-        return userService.getActiveNodes(message);
-    }
 
 
 

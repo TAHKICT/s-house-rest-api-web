@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,22 +27,29 @@ public class UserServiceRest implements UserService {
     CoreService coreService;
 
     @Override
-    public List<String> getMenuItems(String menuItemsSortedBy) {
-        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/menu/get-items?menuItemsSortedBy="+menuItemsSortedBy, String[].class);
-        String[] menuItems = responseEntity.getBody();
-        return Arrays.asList(menuItems);
+    public List<String> getMenuSortingTypes() {
+        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/menu/get-sort-types", String[].class);
+        return Arrays.asList(responseEntity.getBody());
     }
 
     @Override
-    public List<NodeInfoMessage> getActiveNodes(String nodeType) {
+    public List<String> getMenuItems(String sortedBy) {
+        UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(coreApiURL + "/menu/get-items")
+                .queryParam("sortedBy", sortedBy);
+
+        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(url.toUriString(), String[].class);
+        return Arrays.asList(responseEntity.getBody());
+    }
+
+    @Override
+    public List<NodeInfoMessage> getNodes(RequestGetNodes requestGetNodes) {
+        ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.postForEntity(coreApiURL + "/content/get-nodes", requestGetNodes,NodeInfoMessage[].class);
+        return Arrays.asList(responseEntity.getBody());
+    }
+
+    @Override
+    public List<NodeInfoMessage> getNodes(String nodeType) {
         ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/get-active-nodes/"+nodeType, NodeInfoMessage[].class);
-        NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
-        return Arrays.asList(nodeInfoMessages);
-    }
-
-    @Override
-    public List<NodeInfoMessage> getActiveNodes(RequestGetNodes requestGetNodes) {
-        ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.postForEntity(coreApiURL + "/get-active-nodes", requestGetNodes,NodeInfoMessage[].class);
         NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
         return Arrays.asList(nodeInfoMessages);
     }
@@ -50,12 +58,5 @@ public class UserServiceRest implements UserService {
     public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage) {
         coreService.sendRequestToCore(webSocketMessage);
         return webSocketMessage;
-    }
-
-    @Override
-    public List<String> getMenuSortingTypes() {
-        ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/menu/get-sort-types", String[].class);
-        String[] menuSortTypes = responseEntity.getBody();
-        return Arrays.asList(menuSortTypes);
     }
 }

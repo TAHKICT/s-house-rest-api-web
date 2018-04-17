@@ -7,12 +7,14 @@ public class RequestGetNodes {
 
     private String type;
     private String name;
+    private boolean activeOnly;
 
     public RequestGetNodes() {}
 
-    public RequestGetNodes(String type, String name) {
+    public RequestGetNodes(String type, String name, boolean activeOnly) {
         this.type = type;
         this.name = name;
+        this.activeOnly = activeOnly;
     }
 
     public String getType() {
@@ -29,6 +31,14 @@ public class RequestGetNodes {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isActiveOnly() {
+        return activeOnly;
+    }
+
+    public void setActiveOnly(boolean activeOnly) {
+        this.activeOnly = activeOnly;
     }
 
     @Override

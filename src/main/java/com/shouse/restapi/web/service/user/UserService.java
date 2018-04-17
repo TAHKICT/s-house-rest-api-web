@@ -10,9 +10,9 @@ public interface UserService {
 
     public List<String> getMenuItems(String menuItemsSortedBy);
 
-    public List<NodeInfoMessage> getActiveNodes(String nodeType);
+    public List<NodeInfoMessage> getNodes(String nodeType);
 
-    public List<NodeInfoMessage> getActiveNodes(RequestGetNodes requestGetNodes);
+    public List<NodeInfoMessage> getNodes(RequestGetNodes requestGetNodes);
 
     public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage);
 
