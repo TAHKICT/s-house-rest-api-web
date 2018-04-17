@@ -41,7 +41,7 @@ class Model {
     handleWebSocketMessage(nodeId,value){
         var el = this.container;
         el = el.querySelector(`[data-id="${nodeId}"]`);
-        el = el.querySelector('input').checked = (value == "true");
+        el = el.querySelector('input').checked = (value == "checked");
     }
 
     handleNodeControlChange(nodeId,value){

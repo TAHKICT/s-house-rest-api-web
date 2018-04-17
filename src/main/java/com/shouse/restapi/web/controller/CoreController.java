@@ -1,6 +1,6 @@
 package com.shouse.restapi.web.controller;
 
-import com.shouse.restapi.web.domain.WebSocketMessage;
+import com.shouse.restapi.web.domain.NodeParamChangeEvent;
 import com.shouse.restapi.web.service.core.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +21,10 @@ public class CoreController {
     CoreService coreService;
 
     @RequestMapping("/for-core-application")
-    public String handleRequestFromCore(@RequestBody WebSocketMessage message, HttpServletResponse response) {
+    public void handleRequestFromCore(@RequestBody NodeParamChangeEvent message, HttpServletResponse response) {
         response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("CoreController. handleRequestFromCore. Incoming message:  " + message);
         coreService.handleRequestFromCore(message);
-        return "OK";
+//        return "OK";
     }
 }

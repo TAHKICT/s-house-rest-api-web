@@ -1,6 +1,6 @@
 package com.shouse.restapi.web.controller;
 
-import com.shouse.restapi.web.domain.WebSocketMessage;
+import com.shouse.restapi.web.domain.NodeParamChangeEvent;
 import com.shouse.restapi.web.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +23,13 @@ public class UsersControllerWebSocket{
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
-    public WebSocketMessage webSocketMessage(WebSocketMessage webSocketMessage) {
-        log.info("UsersControllerWebSocket. webSocketMessage. : " + webSocketMessage);
-        return userService.handleWebSocketRequest(webSocketMessage);
+    public NodeParamChangeEvent webSocketMessage(NodeParamChangeEvent nodeParamChangeEvent) {
+        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
+        return userService.handleNodeChangeEvent(nodeParamChangeEvent);
     }
 
-    public void sendMessage(WebSocketMessage webSocketMessage) {
-        log.info("UsersControllerWebSocket. sendMessage. " + webSocketMessage);
-        this.restTemplate.convertAndSend("/to-user/messages", webSocketMessage);
+    public void sendMessage(NodeParamChangeEvent nodeParamChangeEvent) {
+        log.info("UsersControllerWebSocket. sendMessage. " + nodeParamChangeEvent);
+        this.restTemplate.convertAndSend("/to-user/messages", nodeParamChangeEvent);
     }
 }

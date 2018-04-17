@@ -2,7 +2,7 @@ package com.shouse.restapi.web.service.user;
 
 import com.shouse.restapi.web.domain.RequestGetNodes;
 import com.shouse.restapi.web.domain.NodeInfoMessage;
-import com.shouse.restapi.web.domain.WebSocketMessage;
+import com.shouse.restapi.web.domain.NodeParamChangeEvent;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public interface UserService {
 
     public List<NodeInfoMessage> getNodes(RequestGetNodes requestGetNodes);
 
-    public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage);
+    public NodeParamChangeEvent handleNodeChangeEvent(NodeParamChangeEvent nodeParamChangeEvent);
 
     public List<String> getMenuSortingTypes();
 }

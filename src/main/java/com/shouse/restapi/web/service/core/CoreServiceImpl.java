@@ -3,8 +3,7 @@ package com.shouse.restapi.web.service.core;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shouse.restapi.web.controller.UsersControllerWebSocket;
-import com.shouse.restapi.web.domain.WebSocketMessage;
-import com.shouse.restapi.web.service.core.CoreService;
+import com.shouse.restapi.web.domain.NodeParamChangeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +21,14 @@ public class CoreServiceImpl implements CoreService {
     RestTemplate restTemplate;
 
     @Override
-    public void handleRequestFromCore(WebSocketMessage webSocketMessage) {
-        log.info("UserServiceRest. handleRequestFromCore. Incoming webSocketMessage: " + webSocketMessage);
-        usersControllerWebSocket.sendMessage(webSocketMessage);
+    public void handleRequestFromCore(NodeParamChangeEvent nodeParamChangeEvent) {
+        log.info("UserServiceRest. handleRequestFromCore. Incoming nodeParamChangeEvent: " + nodeParamChangeEvent);
+        usersControllerWebSocket.sendMessage(nodeParamChangeEvent);
     }
 
     @Override
-    public void sendRequestToCore(WebSocketMessage webSocketMessage) {
-        String message = processMessage(webSocketMessage);
+    public void sendRequestToCore(NodeParamChangeEvent nodeParamChangeEvent) {
+        String message = processMessage(nodeParamChangeEvent);
 
         final String uri = "http://localhost:8181";
         HttpHeaders headers = new HttpHeaders();
@@ -42,8 +41,8 @@ public class CoreServiceImpl implements CoreService {
                 "Response: " + response);
     }
 
-    private String processMessage(WebSocketMessage webSocketMessage){
-        RequestToCore requestToCore = new RequestToCore(webSocketMessage.getNodeId(),webSocketMessage.getValue());
+    private String processMessage(NodeParamChangeEvent nodeParamChangeEvent){
+        RequestToCore requestToCore = new RequestToCore(nodeParamChangeEvent.getNodeId(), nodeParamChangeEvent.getValue());
         ObjectMapper mapper = new ObjectMapper();
 
         try {

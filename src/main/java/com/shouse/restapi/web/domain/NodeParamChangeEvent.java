@@ -1,12 +1,12 @@
 package com.shouse.restapi.web.domain;
 
-public class WebSocketMessage {
+public class NodeParamChangeEvent {
     private int nodeId;
     private String value;
 
-    public WebSocketMessage() {}
+    public NodeParamChangeEvent() {}
 
-    public WebSocketMessage(int nodeId, String value) {
+    public NodeParamChangeEvent(int nodeId, String value) {
         this.nodeId = nodeId;
         this.value = value;
     }
@@ -29,7 +29,7 @@ public class WebSocketMessage {
 
     @Override
     public String toString() {
-        return "WebSocketMessage{" +
+        return "NodeParamChangeEvent{" +
                 "nodeId=" + nodeId +
                 ", value='" + value + '\'' +
                 '}';

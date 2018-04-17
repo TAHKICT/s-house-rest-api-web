@@ -16,9 +16,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/assets/**","/components/**", "/css/**", "/header/**", "/js/**","/snippets/**","/").permitAll()
-                .antMatchers(HttpMethod.POST, "/web-rest-api/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/web-rest-api/for-core-application").permitAll()
+//                .antMatchers("/assets/**","/components/**", "/css/**", "/header/**", "/js/**","/snippets/**","/").permitAll()
+//                .antMatchers(HttpMethod.POST, "/web-rest-api/login").permitAll()
+//                .antMatchers(HttpMethod.POST, "/web-rest-api/for-core-application").permitAll()
+                .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // We filter the api/login requests

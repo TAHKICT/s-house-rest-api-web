@@ -1,8 +1,8 @@
 package com.shouse.restapi.web.service.user;
 
+import com.shouse.restapi.web.domain.NodeParamChangeEvent;
 import com.shouse.restapi.web.domain.RequestGetNodes;
 import com.shouse.restapi.web.domain.NodeInfoMessage;
-import com.shouse.restapi.web.domain.WebSocketMessage;
 import com.shouse.restapi.web.service.core.CoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,15 +48,20 @@ public class UserServiceRest implements UserService {
     }
 
     @Override
-    public List<NodeInfoMessage> getNodes(String nodeType) {
-        ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/get-active-nodes/"+nodeType, NodeInfoMessage[].class);
-        NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
-        return Arrays.asList(nodeInfoMessages);
+    public NodeParamChangeEvent handleNodeChangeEvent(NodeParamChangeEvent nodeParamChangeEvent) {
+        ResponseEntity<NodeParamChangeEvent> responseEntity = restTemplate.postForEntity(coreApiURL + "/content/node-parameter-change", nodeParamChangeEvent, NodeParamChangeEvent.class);
+        NodeParamChangeEvent nodeParamChangeEventFromCore = responseEntity.getBody();
+
+        return nodeParamChangeEventFromCore;
     }
 
     @Override
-    public WebSocketMessage handleWebSocketRequest(WebSocketMessage webSocketMessage) {
-        coreService.sendRequestToCore(webSocketMessage);
-        return webSocketMessage;
+    public List<NodeInfoMessage> getNodes(String nodeType) {
+        ResponseEntity<NodeInfoMessage[]> responseEntity = restTemplate.getForEntity(coreApiURL + "/get-active-nodes/"+nodeType, NodeInfoMessage[].class);
+        NodeInfoMessage[] nodeInfoMessages = responseEntity.getBody();
+        System.out.println(Arrays.asList(nodeInfoMessages));
+        return Arrays.asList(nodeInfoMessages);
     }
+
+
 }
