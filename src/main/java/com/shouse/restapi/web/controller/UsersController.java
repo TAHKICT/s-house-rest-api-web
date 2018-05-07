@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/web-rest-api/user/admin-ui")
 public class UsersController {
@@ -22,7 +23,7 @@ public class UsersController {
 
     @RequestMapping("/menu/get-sorting-types")
     public List<String> menuSortTypes(HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
+//        response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("UsersController. getMenuSortingTypes");
 
         return userService.getMenuSortingTypes();
@@ -30,7 +31,7 @@ public class UsersController {
 
     @RequestMapping("/menu/get-items")
     public List<String> menuItems(@RequestParam(value = "sortedBy") String sortedBy, HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
+//        response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("UsersController. getMenuItems");
 
         return userService.getMenuItems(sortedBy);
@@ -39,18 +40,16 @@ public class UsersController {
     @RequestMapping("/content/get-nodes")
     public List<NodeInfoMessage> nodesList(@RequestBody RequestGetNodes message,
                                                 HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        log.info("UsersController. getActiveNodesByType: " + message);
-
+//        response.addHeader("Access-Control-Allow-Origin", "*");
+        log.info("UsersController. nodesList: " + message);
         return userService.getNodes(message);
     }
 
     @RequestMapping("/content/get-nodes/{nodeType}")
     public List<NodeInfoMessage> getActiveNodesByType(@PathVariable(value="nodeType") String nodeType,
                                                       HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
+//        response.addHeader("Access-Control-Allow-Origin", "*");
         log.info("UsersController. getActiveNodesByType: " + nodeType);
-
         return userService.getNodes(nodeType);
     }
 
