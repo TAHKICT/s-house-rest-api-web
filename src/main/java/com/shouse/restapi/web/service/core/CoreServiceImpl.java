@@ -36,7 +36,7 @@ public class CoreServiceImpl implements CoreService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<String>(message, headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(uri+"/core-rest-api/for-web-application/web-application-event", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(uri+"/core-rest-api/for-web-application/content/node-parameter-change", HttpMethod.POST, entity, String.class);
         log.info("CoreServiceImpl. sendRequestToCore. " +
                 "message:" + message +
                 "Response: " + response);
