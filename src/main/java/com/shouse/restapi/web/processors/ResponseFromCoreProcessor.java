@@ -19,7 +19,6 @@ public class ResponseFromCoreProcessor implements Runnable {
 
     public ResponseFromCoreProcessor(CommunicatorWithCore communicator) {
         this.communicator = communicator;
-        this.usersControllerWebSocket = usersControllerWebSocket;
     }
 
     public void stop(){
