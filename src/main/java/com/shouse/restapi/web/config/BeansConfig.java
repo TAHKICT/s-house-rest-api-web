@@ -21,11 +21,6 @@ public class BeansConfig {
     }
 
     @Bean
-    public CommunicatorWithCore communicatorWithCore(RestTemplate restTemplate){
-        return new CommunicatorWithCoreRestAPI(restTemplate);
-    }
-
-    @Bean
     public ResponseFromCoreProcessor responseFromCoreProcessor (CommunicatorWithCore communicatorWithCore){
         return new ResponseFromCoreProcessor(communicatorWithCore);
     }

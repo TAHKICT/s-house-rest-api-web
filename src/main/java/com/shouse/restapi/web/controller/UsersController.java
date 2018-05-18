@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import shouse.core.node.NodeInfo;
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/content/get-nodes/{nodeType}")
-    public List<NodeInfoMessage> getNodesTest() {
+    @RequestMapping("/content/get-nodes")
+    public List<NodeInfo> getNodesTest() {
         log.info("getNodesTest");
         return userService.getNodes(false);
     }
