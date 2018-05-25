@@ -1,6 +1,5 @@
 package com.shouse.restapi.web.controller;
 
-import com.shouse.restapi.web.domain.NodeParamChangeEvent;
 import com.shouse.restapi.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +9,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
+import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -23,15 +24,22 @@ public class UsersControllerWebSocket{
     @Autowired
     SimpMessagingTemplate restTemplate;
 
+//    @MessageMapping("/to-server")
+//    @SendTo("/to-user/messages")
+//    public NodeEventMessage webSocketMessage(NodeEventMessage nodeParamChangeEvent) {
+//        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
+//        return userService.handleNodeChangeEvent(nodeParamChangeEvent);
+//    }
+
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
-    public NodeParamChangeEvent webSocketMessage(NodeParamChangeEvent nodeParamChangeEvent) {
-        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
-        return userService.handleNodeChangeEvent(nodeParamChangeEvent);
+    public void webSocketMessage(Map<String,String> eventParams) {
+        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + eventParams);
+        userService.handleNodeChangeEvent(eventParams);
     }
 
-    public void sendMessage(NodeParamChangeEvent nodeParamChangeEvent) {
-        log.info("UsersControllerWebSocket. sendMessage. " + nodeParamChangeEvent);
-        this.restTemplate.convertAndSend("/to-user/messages", nodeParamChangeEvent);
+    public void sendMessage(Map<String,String> eventParams) {
+        log.info("UsersControllerWebSocket. sendMessage. " + eventParams);
+        this.restTemplate.convertAndSend("/to-user/messages", eventParams);
     }
 }

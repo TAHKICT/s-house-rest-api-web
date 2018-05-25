@@ -14,7 +14,7 @@ import shouse.core.node.response.Response;
 @RestController
 public class CommunicatorWithCoreRestAPI implements CommunicatorWithCore{
 
-    private String entryPointURL = "http://localhost:8181/core-rest-api/for-web-application/entry-point";
+    private String coreApplicationEntryPointURL = "http://localhost:8181/core-rest-api/for-web-application/entry-point";
     private RestTemplate restTemplate;
     private Response response;
     private boolean hasResponse;
@@ -26,7 +26,7 @@ public class CommunicatorWithCoreRestAPI implements CommunicatorWithCore{
 
     @Override
     public Response sendRequest(Request request) {
-        ResponseEntity<Response> responseEntity = restTemplate.postForEntity(entryPointURL, request, Response.class);
+        ResponseEntity<Response> responseEntity = restTemplate.postForEntity(coreApplicationEntryPointURL, request, Response.class);
         return responseEntity.getBody();
     }
 

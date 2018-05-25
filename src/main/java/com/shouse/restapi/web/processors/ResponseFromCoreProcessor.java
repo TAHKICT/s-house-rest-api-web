@@ -2,7 +2,7 @@ package com.shouse.restapi.web.processors;
 
 import com.shouse.restapi.web.communicators.CommunicatorWithCore;
 import com.shouse.restapi.web.controller.UsersControllerWebSocket;
-import com.shouse.restapi.web.domain.NodeParamChangeEvent;
+import com.shouse.restapi.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,12 @@ public class ResponseFromCoreProcessor implements Runnable {
     private UsersControllerWebSocket usersControllerWebSocket;
 
     private CommunicatorWithCore communicator;
+    private UserService userService;
     private boolean running;
 
-    public ResponseFromCoreProcessor(CommunicatorWithCore communicator) {
+    public ResponseFromCoreProcessor(CommunicatorWithCore communicator, UserService userService) {
         this.communicator = communicator;
+        this.userService = userService;
     }
 
     public void stop(){
@@ -37,7 +39,6 @@ public class ResponseFromCoreProcessor implements Runnable {
     }
 
     private void process (Response response){
-        NodeParamChangeEvent nodeParamChangeEvent = new NodeParamChangeEvent();
-        usersControllerWebSocket.sendMessage(nodeParamChangeEvent);
+        userService.processResponseFromCore(response);
     }
 }
