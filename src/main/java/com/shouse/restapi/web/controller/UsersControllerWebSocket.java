@@ -15,8 +15,7 @@ import java.util.Map;
 @CrossOrigin
 @Controller
 public class UsersControllerWebSocket{
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     UserService userService;
@@ -27,19 +26,19 @@ public class UsersControllerWebSocket{
 //    @MessageMapping("/to-server")
 //    @SendTo("/to-user/messages")
 //    public NodeEventMessage webSocketMessage(NodeEventMessage nodeParamChangeEvent) {
-//        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
+//        LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
 //        return userService.handleNodeChangeEvent(nodeParamChangeEvent);
 //    }
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
     public void webSocketMessage(Map<String,String> eventParams) {
-        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + eventParams);
+        LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + eventParams);
         userService.handleNodeChangeEvent(eventParams);
     }
 
     public void sendMessage(Map<String,String> eventParams) {
-        log.info("UsersControllerWebSocket. sendMessage. " + eventParams);
+        LOGGER.info("UsersControllerWebSocket. sendMessage. " + eventParams);
         this.restTemplate.convertAndSend("/to-user/messages", eventParams);
     }
 }

@@ -1,5 +1,7 @@
 package com.shouse.restapi.web.communicators;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +15,7 @@ import shouse.core.node.response.Response;
 @CrossOrigin
 @RestController
 public class CommunicatorWithCoreRestAPI implements CommunicatorWithCore{
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private String coreApplicationEntryPointURL = "http://localhost:8181/core-rest-api/for-web-application/entry-point";
     private RestTemplate restTemplate;
@@ -43,6 +46,7 @@ public class CommunicatorWithCoreRestAPI implements CommunicatorWithCore{
 
     @RequestMapping("/web-rest-api/for-core-application/entry-point")
     public void entryPoint (@RequestBody Response response) {
+        log.info("entryPoint. response: ".concat(response.toString()));
         this.response = response;
         this.hasResponse = true;
     }

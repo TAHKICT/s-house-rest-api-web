@@ -1,8 +1,10 @@
 package com.shouse.restapi.web.service;
 
 import com.shouse.restapi.web.communicators.CommunicatorWithCore;
+import com.shouse.restapi.web.controller.UsersControllerWebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import shouse.core.common.SystemConstants;
 import shouse.core.node.NodeInfo;
 import shouse.core.node.request.Request;
@@ -16,8 +18,10 @@ public class UserService {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private CommunicatorWithCore communicatorWithCore;
-    private Map <String,Response> responseMap = new HashMap();
+    private Map <String,Request> requestMap = new HashMap();
 
+    @Autowired
+    UsersControllerWebSocket usersControllerWebSocket;
 
     public UserService(CommunicatorWithCore communicatorWithCore) {
         this.communicatorWithCore = communicatorWithCore;
@@ -37,15 +41,24 @@ public class UserService {
     }
 
     public void handleNodeChangeEvent(Map<String,String> nodeEventMessage) {
-        Response response = communicatorWithCore.sendRequest(new Request(nodeEventMessage));
+        Request request = new Request(nodeEventMessage);
+        Response response = communicatorWithCore.sendRequest(request);
         LOGGER.info("Receive quick response from core: " + response);
-        responseMap.put(response.getData().get(SystemConstants.requestId).toString(), response);
+        requestMap.put(response.getData().get(SystemConstants.requestId).toString(), request);
     }
 
     public void processResponseFromCore(Response response){
-        if(responseMap.get(response.getData().get(SystemConstants.requestId).toString()) != null){
-            LOGGER.info("Got response by request ID: ".concat(response.toString()));
+        LOGGER.info("processResponseFromCore. ".concat(response.toString()));
+        if(response.getData().get(SystemConstants.requestId) != null){
+            LOGGER.info("Got response by request ID: ".concat(response.getData().get(SystemConstants.requestId).toString()));
+            Request request = requestMap.get(response.getData().get(SystemConstants.requestId));
 
+            if(request == null)
+                LOGGER.error("request is null");
+
+
+            if(response.getData().get(SystemConstants.executionStatus).toString().equals("READY"))
+                usersControllerWebSocket.sendMessage(request.getBody().getParameters());
         }
     }
 }
