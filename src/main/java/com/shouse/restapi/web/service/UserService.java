@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import shouse.core.common.SystemConstants;
 import shouse.core.node.NodeInfo;
 import shouse.core.node.request.Request;
+import shouse.core.node.request.RequestIdGenerator;
 import shouse.core.node.response.Response;
 
 import java.util.HashMap;
@@ -40,11 +41,22 @@ public class UserService {
         return nodeInfoList;
     }
 
-    public void handleNodeChangeEvent(Map<String,String> nodeEventMessage) {
+//    public void processNodeChangeEventFromClient(Map<String,String> nodeEventMessage) {
+//        Request request = new Request(nodeEventMessage);
+//        Response response = communicatorWithCore.sendRequest(request);
+//        LOGGER.info("Receive quick response from core: " + response);
+//        requestMap.put(response.getData().get(SystemConstants.requestId).toString(), request);
+//    }
+
+    public void processNodeChangeEventFromClient(Map<String,String> nodeEventMessage) {
+        String requestId = String.valueOf(RequestIdGenerator.generateId());
+
         Request request = new Request(nodeEventMessage);
+        request.addParameter(SystemConstants.requestId, requestId);
+        requestMap.put(requestId, request);
+
         Response response = communicatorWithCore.sendRequest(request);
         LOGGER.info("Receive quick response from core: " + response);
-        requestMap.put(response.getData().get(SystemConstants.requestId).toString(), request);
     }
 
     public void processResponseFromCore(Response response){

@@ -27,14 +27,14 @@ public class UsersControllerWebSocket{
 //    @SendTo("/to-user/messages")
 //    public NodeEventMessage webSocketMessage(NodeEventMessage nodeParamChangeEvent) {
 //        LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
-//        return userService.handleNodeChangeEvent(nodeParamChangeEvent);
+//        return userService.processNodeChangeEventFromClient(nodeParamChangeEvent);
 //    }
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
     public void webSocketMessage(Map<String,String> eventParams) {
         LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + eventParams);
-        userService.handleNodeChangeEvent(eventParams);
+        userService.processNodeChangeEventFromClient(eventParams);
     }
 
     public void sendMessage(Map<String,String> eventParams) {
