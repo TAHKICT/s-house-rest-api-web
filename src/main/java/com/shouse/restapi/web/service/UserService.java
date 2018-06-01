@@ -18,14 +18,16 @@ import java.util.Map;
 public class UserService {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    private UsersControllerWebSocket usersControllerWebSocket;
+
     private CommunicatorWithCore communicatorWithCore;
     private Map <String,Request> requestMap = new HashMap();
 
-    @Autowired
-    UsersControllerWebSocket usersControllerWebSocket;
-
     public UserService(CommunicatorWithCore communicatorWithCore) {
         this.communicatorWithCore = communicatorWithCore;
+
+//        usersControllerWebSocket.sendMessage(Map.of("global", "Server stared"));
     }
 
     public List<NodeInfo> getNodes(boolean isActiveOnly){
@@ -41,22 +43,32 @@ public class UserService {
         return nodeInfoList;
     }
 
-//    public void processNodeChangeEventFromClient(Map<String,String> nodeEventMessage) {
-//        Request request = new Request(nodeEventMessage);
-//        Response response = communicatorWithCore.sendRequest(request);
-//        LOGGER.info("Receive quick response from core: " + response);
-//        requestMap.put(response.getData().get(SystemConstants.requestId).toString(), request);
-//    }
+    public void processWebSocketEventFromClient(Map<String,String> webSocketEventParams) {
+        if(webSocketEventParams.get("checkNodesInProcess") != null){
+            LOGGER.info("Get checkNodesInProcess web socket request.");
+            if(!requestMap.isEmpty()){
+                Map webSocketResponseParams = new HashMap<String,String>();
+                webSocketResponseParams.put("type", "nodesInProcess");
+                requestMap.values().stream().filter(val -> val.getBody().getParameter("nodeId") != null).forEach(val -> {
+                    webSocketResponseParams.put("nodeId", val.getBody().getParameter("nodeId"));
+                });
+                usersControllerWebSocket.sendMessage(webSocketResponseParams);
+            }
+        }else {
+            String requestId = String.valueOf(RequestIdGenerator.generateId());
 
-    public void processNodeChangeEventFromClient(Map<String,String> nodeEventMessage) {
-        String requestId = String.valueOf(RequestIdGenerator.generateId());
+            Request request = new Request(webSocketEventParams);
+            request.addParameter(SystemConstants.requestId, requestId);
+            requestMap.put(requestId, request);
 
-        Request request = new Request(nodeEventMessage);
-        request.addParameter(SystemConstants.requestId, requestId);
-        requestMap.put(requestId, request);
+            Response response = communicatorWithCore.sendRequest(request);
+            LOGGER.info("Receive quick response from core: " + response);
 
-        Response response = communicatorWithCore.sendRequest(request);
-        LOGGER.info("Receive quick response from core: " + response);
+            Map webSocketResponseParams = new HashMap<String,String>();
+            webSocketResponseParams.put("type", "nodesInProcess");
+            webSocketResponseParams.put("nodeId", request.getBody().getParameter("nodeId"));
+            usersControllerWebSocket.sendMessage(webSocketResponseParams);
+        }
     }
 
     public void processResponseFromCore(Response response){
@@ -69,8 +81,10 @@ public class UserService {
                 LOGGER.error("request is null");
 
 
-            if(response.getData().get(SystemConstants.executionStatus).toString().equals("READY"))
+            if(response.getData().get(SystemConstants.executionStatus).toString().equals("READY")) {
                 usersControllerWebSocket.sendMessage(request.getBody().getParameters());
+                requestMap.remove(response.getData().get(SystemConstants.requestId));
+            }
         }
     }
 }

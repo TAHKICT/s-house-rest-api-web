@@ -23,18 +23,11 @@ public class UsersControllerWebSocket{
     @Autowired
     SimpMessagingTemplate restTemplate;
 
-//    @MessageMapping("/to-server")
-//    @SendTo("/to-user/messages")
-//    public NodeEventMessage webSocketMessage(NodeEventMessage nodeParamChangeEvent) {
-//        LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
-//        return userService.processNodeChangeEventFromClient(nodeParamChangeEvent);
-//    }
-
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
     public void webSocketMessage(Map<String,String> eventParams) {
         LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + eventParams);
-        userService.processNodeChangeEventFromClient(eventParams);
+        userService.processWebSocketEventFromClient(eventParams);
     }
 
     public void sendMessage(Map<String,String> eventParams) {

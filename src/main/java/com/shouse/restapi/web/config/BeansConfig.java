@@ -1,6 +1,8 @@
 package com.shouse.restapi.web.config;
 
 import com.shouse.restapi.web.communicators.CommunicatorWithCore;
+import com.shouse.restapi.web.communicators.CommunicatorWithCoreRestAPI;
+import com.shouse.restapi.web.controller.UsersControllerWebSocket;
 import com.shouse.restapi.web.processors.ResponseFromCoreProcessor;
 import com.shouse.restapi.web.service.UserService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -18,18 +20,13 @@ public class BeansConfig {
     }
 
     @Bean
-    public ResponseFromCoreProcessor responseFromCoreProcessor (CommunicatorWithCore communicatorWithCore, UserService userService){
-        return new ResponseFromCoreProcessor(communicatorWithCore, userService);
-    }
-
-    @Bean
-    public UserService usersService(CommunicatorWithCore communicatorWithCore){
+    public UserService userService(CommunicatorWithCoreRestAPI communicatorWithCore){
         return new UserService(communicatorWithCore);
     }
 
-//    @Bean
-//    public CoreService coreService(){
-//        return new CoreServiceImpl();
-//    }
+    @Bean
+    public ResponseFromCoreProcessor responseFromCoreProcessor (CommunicatorWithCore communicatorWithCore, UserService userService){
+        return new ResponseFromCoreProcessor(communicatorWithCore, userService);
+    }
 
 }
