@@ -14,6 +14,7 @@ import shouse.core.node.response.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserService {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -44,16 +45,21 @@ public class UserService {
     }
 
     public void processWebSocketEventFromClient(Map<String,String> webSocketEventParams) {
-        if(webSocketEventParams.get("checkNodesInProcess") != null){
-            LOGGER.info("Get checkNodesInProcess web socket request.");
+        if(webSocketEventParams.get("whichNodesInProcess") != null){
+            LOGGER.info("Get whichNodesInProcess web socket request.");
             if(!requestMap.isEmpty()){
                 Map webSocketResponseParams = new HashMap<String,String>();
                 webSocketResponseParams.put("type", "nodesInProcess");
-                requestMap.values().stream().filter(val -> val.getBody().getParameter("nodeId") != null).forEach(val -> {
-                    webSocketResponseParams.put("nodeId", val.getBody().getParameter("nodeId"));
-                });
-                usersControllerWebSocket.sendMessage(webSocketResponseParams);
-            }
+                webSocketResponseParams.put("recipientOfTheMessage", "node");
+                requestMap.values().stream()
+                        .filter(val -> val.getBody().getParameter("nodeId") != null)
+                        .forEach(val -> {
+                            webSocketResponseParams.put("nodeId", val.getBody().getParameter("nodeId"));
+//                            usersControllerWebSocket.sendMessage(webSocketResponseParams);
+                        });
+//                usersControllerWebSocket.sendMessage(webSocketResponseParams);
+            }else
+                LOGGER.info("There are no inProcess nodes.");
         }else {
             String requestId = String.valueOf(RequestIdGenerator.generateId());
 
@@ -86,5 +92,12 @@ public class UserService {
                 requestMap.remove(response.getData().get(SystemConstants.requestId));
             }
         }
+    }
+
+    public List<String> getInProcessNodesIdList (){
+            return requestMap.values().stream()
+                    .filter(val -> val.getBody().getParameter("nodeId") != null)
+                    .map(val -> val.getBody().getParameter("nodeId"))
+                    .collect(Collectors.toList());
     }
 }

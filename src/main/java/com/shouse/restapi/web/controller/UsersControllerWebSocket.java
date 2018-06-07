@@ -25,13 +25,13 @@ public class UsersControllerWebSocket{
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
-    public void webSocketMessage(Map<String,String> eventParams) {
-        LOGGER.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + eventParams);
+    public void incomingWebSocketMessage(Map<String,String> eventParams) {
+        LOGGER.info(".incomingWebSocketMessage: " + eventParams);
         userService.processWebSocketEventFromClient(eventParams);
     }
 
     public void sendMessage(Map<String,String> eventParams) {
-        LOGGER.info("UsersControllerWebSocket. sendMessage. " + eventParams);
+        LOGGER.info(".sendMessage: " + eventParams);
         this.restTemplate.convertAndSend("/to-user/messages", eventParams);
     }
 }

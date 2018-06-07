@@ -25,4 +25,10 @@ public class UsersController {
         return userService.getNodes(false);
     }
 
+    @RequestMapping("/content/get-in-process-nodes-id-list")
+    public List<String> getInProcessNodesIdList() {
+        log.info("getInProcessNodesIdList");
+        return userService.getInProcessNodesIdList();
+    }
+
 }
