@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public void processWebSocketEventFromClient(Map<String,String> webSocketEventParams) {
-
+        LOGGER.info("processWebSocketEventFromClient. webSocketEventParams: " + webSocketEventParams.toString());
         if(areDuplicateParams(webSocketEventParams)){
             LOGGER.info("Web socket event params are duplicated");
             return;
@@ -54,6 +54,7 @@ public class UserService {
             String requestId = String.valueOf(RequestIdGenerator.generateId());
             Request request = new Request(webSocketEventParams);
             requestMap.put(requestId, request);
+            request.addParameter(SystemConstants.requestId, requestId);
 
             Response response = communicatorWithCore.sendRequest(request);
             LOGGER.info("Receive quick response from core: " + response);
