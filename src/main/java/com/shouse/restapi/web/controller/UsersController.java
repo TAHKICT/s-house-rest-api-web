@@ -1,19 +1,17 @@
 package com.shouse.restapi.web.controller;
 
-import com.shouse.restapi.web.domain.NodeInfoMessage;
-import com.shouse.restapi.web.service.user.UserService;
+import com.shouse.restapi.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import shouse.core.node.NodeInfo;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/web-rest-api")
+@RequestMapping("/web-rest-api/user/admin-ui")
 public class UsersController {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -21,13 +19,16 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @RequestMapping("/user/admin-ui/get-active-nodes/{nodeType}")
-    public List<NodeInfoMessage> getActiveNodesByType(@PathVariable(value="nodeType") String nodeType,
-                                                      HttpServletResponse response) {
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        log.info("UsersController. getActiveNodesByType: " + nodeType);
+    @RequestMapping("/content/get-nodes")
+    public List<NodeInfo> getNodesTest() {
+        log.info("getNodesTest");
+        return userService.getNodes(false);
+    }
 
-        return userService.getActiveNodes(nodeType);
+    @RequestMapping("/content/get-in-process-nodes-id-list")
+    public List<String> getInProcessNodesIdList() {
+        log.info("getInProcessNodesIdList");
+        return userService.getInProcessNodesIdList();
     }
 
 }

@@ -21,7 +21,7 @@ class Model {
     if (this.settings.webSocDataUrl == '') { console.log('Не установлен адресс для вебсокетов'); return; };
           this.socket = new SockJS(this.settings.webSocDataUrl);
           this.stompClient = Stomp.over(this.socket);
-
+          console.log('this.stompClient.url: ' + this.stompClient.url);
           this.stompClient.connect({}, (frame) => {
               console.log('Connected: ' + frame);
               this.stompClient.subscribe('/to-user/messages', (webSocketMessage) => {
@@ -41,7 +41,7 @@ class Model {
     handleWebSocketMessage(nodeId,value){
         var el = this.container;
         el = el.querySelector(`[data-id="${nodeId}"]`);
-        el = el.querySelector('input').checked = (value == "true");
+        el = el.querySelector('input').checked = (value == "checked");
     }
 
     handleNodeControlChange(nodeId,value){

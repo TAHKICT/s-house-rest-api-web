@@ -46,14 +46,15 @@ class Controller {
 
         this.model.initWebSoc();
 
-
         })
         .then(() => {
             var el = document.querySelectorAll('[data-id]');
             el.forEach((item) => {
                 item.querySelector('input').addEventListener('click',
                 () => {
-                    this.model.handleNodeControlChange(item.getAttribute('data-id'), item.querySelector('input').checked);
+                    var isChecked = item.querySelector('input').checked ? 'checked' : 'unchecked';
+                    this.model.handleNodeControlChange(item.getAttribute('data-id'), isChecked);
+                    // this.model.handleNodeControlChange(item.getAttribute('data-id'), item.querySelector('input').checked);
                 })
             })
         })
