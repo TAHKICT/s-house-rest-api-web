@@ -2,7 +2,6 @@ package com.shouse.restapi.web.config;
 
 import com.shouse.restapi.web.communicators.CommunicatorWithCore;
 import com.shouse.restapi.web.communicators.CommunicatorWithCoreRestAPI;
-import com.shouse.restapi.web.controller.UsersControllerWebSocket;
 import com.shouse.restapi.web.processors.ResponseFromCoreProcessor;
 import com.shouse.restapi.web.service.UserService;
 import org.springframework.boot.web.client.RestTemplateBuilder;

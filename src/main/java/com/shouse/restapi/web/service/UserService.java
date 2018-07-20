@@ -80,6 +80,14 @@ public class UserService {
                 requestMap.remove(response.getData().get(SystemConstants.requestId));
             }
         }
+
+        if(response.getData().get(SystemConstants.topic) != null && response.getData().get(SystemConstants.topic).equals(SystemConstants.nodeAliveTopic)){
+            LOGGER.info("processResponseFromCore. ".concat("Got nod alive message from core: ").concat(response.getData().toString()));
+            Map<String,String> webSocketParams = new HashMap<>();
+            webSocketParams.put(SystemConstants.topic, SystemConstants.nodeAliveTopic);
+            webSocketParams.put(SystemConstants.nodeAliveState, Boolean.toString((Boolean) response.getData().get(SystemConstants.nodeAliveState)));
+            usersControllerWebSocket.sendMessage(webSocketParams);
+        }
     }
 
     public List<String> getInProcessNodesIdList (){
