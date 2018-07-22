@@ -1,7 +1,6 @@
 package com.shouse.restapi.web.controller;
 
-import com.shouse.restapi.web.domain.NodeParamChangeEvent;
-import com.shouse.restapi.web.service.user.UserService;
+import com.shouse.restapi.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.Map;
+
 @CrossOrigin
 @Controller
 public class UsersControllerWebSocket{
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     UserService userService;
@@ -25,13 +25,13 @@ public class UsersControllerWebSocket{
 
     @MessageMapping("/to-server")
     @SendTo("/to-user/messages")
-    public NodeParamChangeEvent webSocketMessage(NodeParamChangeEvent nodeParamChangeEvent) {
-        log.info("UsersControllerWebSocket. nodeParamChangeEvent. : " + nodeParamChangeEvent);
-        return userService.handleNodeChangeEvent(nodeParamChangeEvent);
+    public void incomingWebSocketMessage(Map<String,String> eventParams) {
+        LOGGER.info(".incomingWebSocketMessage: " + eventParams);
+        userService.processWebSocketEventFromClient(eventParams);
     }
 
-    public void sendMessage(NodeParamChangeEvent nodeParamChangeEvent) {
-        log.info("UsersControllerWebSocket. sendMessage. " + nodeParamChangeEvent);
-        this.restTemplate.convertAndSend("/to-user/messages", nodeParamChangeEvent);
+    public void sendMessage(Map<String,String> eventParams) {
+        LOGGER.info(".sendMessage: " + eventParams);
+        this.restTemplate.convertAndSend("/to-user/messages", eventParams);
     }
 }
