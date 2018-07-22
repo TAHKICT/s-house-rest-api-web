@@ -59,10 +59,12 @@ public class UserService {
             Response response = communicatorWithCore.sendRequest(request);
             LOGGER.info("Receive quick response from core: " + response);
 
-            Map webSocketResponseParams = new HashMap<String,String>();
-            webSocketResponseParams.put("type", "nodesInProcess");
-            webSocketResponseParams.put("nodeId", request.getBody().getParameter("nodeId"));
-            usersControllerWebSocket.sendMessage(webSocketResponseParams);
+            if(requestMap.get(requestId) != null) {
+                Map webSocketResponseParams = new HashMap<String, String>();
+                webSocketResponseParams.put("type", "nodesInProcess");
+                webSocketResponseParams.put("nodeId", request.getBody().getParameter("nodeId"));
+                usersControllerWebSocket.sendMessage(webSocketResponseParams);
+            }
     }
 
     public void processResponseFromCore(Response response){
