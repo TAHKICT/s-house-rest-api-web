@@ -1,6 +1,6 @@
 package com.shouse.restapi.web.processors;
 
-import com.shouse.restapi.web.communicators.CommunicatorWithCore;
+import com.shouse.restapi.web.communicators.CommunicatorWithBrain;
 import com.shouse.restapi.web.controller.UsersControllerWebSocket;
 import com.shouse.restapi.web.service.UserService;
 import org.slf4j.Logger;
@@ -14,11 +14,11 @@ public class ResponseFromCoreProcessor implements Runnable {
     @Autowired
     private UsersControllerWebSocket usersControllerWebSocket;
 
-    private CommunicatorWithCore communicator;
+    private CommunicatorWithBrain communicator;
     private UserService userService;
     private boolean running;
 
-    public ResponseFromCoreProcessor(CommunicatorWithCore communicator, UserService userService) {
+    public ResponseFromCoreProcessor(CommunicatorWithBrain communicator, UserService userService) {
         this.communicator = communicator;
         this.userService = userService;
     }

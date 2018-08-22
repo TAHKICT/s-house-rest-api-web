@@ -1,6 +1,6 @@
 package com.shouse.restapi.web.service;
 
-import com.shouse.restapi.web.communicators.CommunicatorWithCore;
+import com.shouse.restapi.web.communicators.CommunicatorWithBrain;
 import com.shouse.restapi.web.controller.UsersControllerWebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +22,11 @@ public class UserService {
     @Autowired
     private UsersControllerWebSocket usersControllerWebSocket;
 
-    private CommunicatorWithCore communicatorWithCore;
+    private CommunicatorWithBrain communicatorWithBrain;
     private Map <String,Request> requestMap = new HashMap();
 
-    public UserService(CommunicatorWithCore communicatorWithCore) {
-        this.communicatorWithCore = communicatorWithCore;
+    public UserService(CommunicatorWithBrain communicatorWithBrain) {
+        this.communicatorWithBrain = communicatorWithBrain;
 
 //        usersControllerWebSocket.sendMessage(Map.of("global", "Server stared"));
     }
@@ -38,7 +38,7 @@ public class UserService {
         else
             request.addParameter("command", "allNodes");
 
-        Response response = communicatorWithCore.sendRequest(request);
+        Response response = communicatorWithBrain.sendRequest(request);
         List<NodeInfo> nodeInfoList = (List<NodeInfo>) response.getData().get("nodes");
 
         return nodeInfoList;
@@ -56,7 +56,7 @@ public class UserService {
             requestMap.put(requestId, request);
             request.addParameter(SystemConstants.requestId, requestId);
 
-            Response response = communicatorWithCore.sendRequest(request);
+            Response response = communicatorWithBrain.sendRequest(request);
             LOGGER.info("Receive quick response from core: " + response);
 
             if(requestMap.get(requestId) != null) {

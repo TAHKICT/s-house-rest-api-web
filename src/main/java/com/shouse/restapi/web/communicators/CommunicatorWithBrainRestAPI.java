@@ -14,7 +14,7 @@ import shouse.core.node.response.Response;
 
 @CrossOrigin
 @RestController
-public class CommunicatorWithCoreRestAPI implements CommunicatorWithCore {
+public class CommunicatorWithBrainRestAPI implements CommunicatorWithBrain {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private String coreApplicationEntryPointURL = "http://localhost:8181/core-rest-api/for-web-application/entry-point";
@@ -23,7 +23,7 @@ public class CommunicatorWithCoreRestAPI implements CommunicatorWithCore {
     private boolean hasResponse;
 
     @Autowired
-    public CommunicatorWithCoreRestAPI(RestTemplate restTemplate) {
+    public CommunicatorWithBrainRestAPI(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
