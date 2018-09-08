@@ -34,4 +34,9 @@ public class UsersControllerWebSocket{
         LOGGER.info(".sendMessage: " + eventParams);
         this.restTemplate.convertAndSend("/to-user/messages", eventParams);
     }
+
+    public void sendMessageStringObject(Map<String,Object> eventParams) {
+        LOGGER.info(".sendMessage: " + eventParams);
+        this.restTemplate.convertAndSend("/to-user/messages", eventParams);
+    }
 }

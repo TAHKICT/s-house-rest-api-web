@@ -67,29 +67,38 @@ public class UserService {
             }
     }
 
-    public void processResponseFromCore(Response response){
+    public void processResponseFromCore(Response response) {
         LOGGER.info("processResponseFromCore. ".concat(response.toString()));
-        if(response.getData().get(SystemConstants.requestId) != null){
+        if (response.getData().get(SystemConstants.requestId) != null) {
             LOGGER.info("Got response by request ID: ".concat(response.getData().get(SystemConstants.requestId).toString()));
             Request request = requestMap.get(response.getData().get(SystemConstants.requestId));
 
-            if(request == null)
+            if (request == null)
                 LOGGER.error("request is null");
 
 
-            if(response.getData().get(SystemConstants.executionStatus).toString().equals("READY")) {
+            if (response.getData().get(SystemConstants.executionStatus).toString().equals("READY")) {
                 usersControllerWebSocket.sendMessage(request.getBody().getParameters());
                 requestMap.remove(response.getData().get(SystemConstants.requestId));
             }
         }
 
-        if(response.getData().get(SystemConstants.topic) != null && response.getData().get(SystemConstants.topic).equals(SystemConstants.nodeAliveTopic)){
+        if (response.getData().get(SystemConstants.topic) != null && response.getData().get(SystemConstants.topic).equals(SystemConstants.nodeAliveTopic)) {
             LOGGER.info("processResponseFromCore. ".concat("Got nod alive message from core: ").concat(response.getData().toString()));
-            Map<String,String> webSocketParams = new HashMap<>();
+            Map<String, String> webSocketParams = new HashMap<>();
             webSocketParams.put(SystemConstants.topic, SystemConstants.nodeAliveTopic);
             webSocketParams.put(SystemConstants.nodeAliveState, Boolean.toString((Boolean) response.getData().get(SystemConstants.nodeAliveState)));
             usersControllerWebSocket.sendMessage(webSocketParams);
         }
+
+        if (response.getData().get(SystemConstants.topic) != null && response.getData().get(SystemConstants.topic).equals(SystemConstants.nodeEventTopic)){
+//            LOGGER.info("SystemConstants.topic: " + (String)response.getData().get(SystemConstants.topic));
+//            if(((String)response.getData().get(SystemConstants.topic)).equals(SystemConstants.nodeEventTopic)){
+                LOGGER.info("Send node event");
+                usersControllerWebSocket.sendMessageStringObject(response.getData());
+//            }
+        }
+
     }
 
     public List<String> getInProcessNodesIdList (){
